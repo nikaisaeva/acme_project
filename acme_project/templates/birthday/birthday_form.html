@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+<!-- нужно подключить библиотеку django_bootstrap5 к тем HTML-шаблонам,--> 
+<!-- где она будет использоваться -->
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <!-- Присваиваем переменной data объект request.GET -->
+  {% with data=form.instance %}
+    {% if "/edit/" in request.path %}
+      <h1>Редактировать запись {{ data.pk }}</h1>
+    {% else %}
+      <h1>Создать запись</h1>
+    {% endif %}
+<div class="card col-4 m-3">
+  <div class="card-header">
+    Калькулятор ожидания дня рождения
+  </div>
+  <div class="card-body">
+    <!-- Указываем Формат данных, которые требуется отправить из веб-формы-->
+    <form method="post" enctype="multipart/form-data">
+    <!-- Добавьте тег csrf_token. Без него POST-запрос будет отклонён. -->
+      {% csrf_token %}
+      <!-- Выводим поля формы с помощью специального тега -->
+      {% bootstrap_form form %}
+    <!-- Добавляем кнопку отправки данных. -->
+      {% bootstrap_button button_type="submit" content="Отправить" %}
+    </form>
+  </div>
+</div>
+  <!-- Когда заканчивается область шаблона, где нужна переменная, 
+    закрываем тег with -->
+  {% endwith %}
+{% endblock %} 

@@ -32,6 +32,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'acme_project.urls'
 
+# Директория для хранения шаблонов
 TEMPLATES_DIR = BASE_DIR / 'templates'
 
 TEMPLATES = [
@@ -76,14 +77,18 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-RU'
 
+#Директория для сохраненных файлов
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Директория для статики
+STATIC_URL = '/static/'
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
-
-STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

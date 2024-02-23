@@ -10,8 +10,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
+    'django.contrib.auth', # Приложение для работы с пользователями.Содержит ядро феймворка аутентификации
+    'django.contrib.contenttypes', # Система типов контента, которая позволяет связывать разрешения с создаваемыми моделями
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -22,9 +22,11 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # Управляет сеансами между запросами
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    # Связывает пользователей с запросами с помощью сеансов
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -38,7 +40,7 @@ TEMPLATES_DIR = BASE_DIR / 'templates'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': (TEMPLATES_DIR,),
+        'DIRS': (TEMPLATES_DIR,), # Директория для хранения шаблонов
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -92,3 +94,14 @@ USE_L10N = False
 USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Подключаем бэкенд filebased.EmailBackend:
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# Указываем директорию, в которую будут сохраняться файлы писем:
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
+# После логина будем перенаправлять пользователя на главную страницу — homepage.
+# Ссылка для редиректа можно указать либо относительный путь (например /birthday/),
+# либо имя URL-паттерна (namespace и name пути страницы в urls.py)
+LOGIN_REDIRECT_URL = 'pages:homepage'
+# Адрес страницы логина
+LOGIN_URL = 'login'

@@ -7,6 +7,8 @@ from django.views.generic.edit import CreateView
 
 # Импортируем функцию, позволяющую серверу разработки отдавать файлы.
 from django.conf.urls.static import static
+# Импортируем информацию из настроек.
+from django.conf import settings
 
 from django.contrib import admin
 from django.urls import include, path
@@ -21,7 +23,7 @@ urlpatterns = [
     path('auth/', include('django.contrib.auth.urls')),
     # Создание нового объекта в модели регистрации нового пользователя
     path(
-        'auth/registration/', 
+        'auth/registration/',
         CreateView.as_view(
             template_name='registration/registration_form.html',
             form_class=UserCreationForm,
@@ -30,4 +32,15 @@ urlpatterns = [
         name='registration',
     ),
 # В конце добавляем к списку вызов функции static.
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
+]
+
+# Если проект запущен в режиме разработки...
+if settings.DEBUG:
+    import debug_toolbar
+    # Добавить к списку urlpatterns список адресов из приложения debug_toolbar:
+    urlpatterns += (path('__debug__/', include(debug_toolbar.urls)),)
+
+# Подключаем функцию static() к urlpatterns:
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = 'core.views.page_not_found'

@@ -15,4 +15,6 @@ urlpatterns = [
     path('<int:pk>/edit/', views.BirthdayUpdateView.as_view(), name='edit'),
     # добавляем маршрут для удаления формы
     path('<int:pk>/delete/', views.BirthdayDeleteView.as_view(), name='delete'),
+    # Маршрут для поздравлений
+    path('<int:pk>/comment/', views.CongratulationCreateView.as_view(), name='add_comment'),
 ]

@@ -9,6 +9,10 @@ from django.core.exceptions import ValidationError
 # Импорт функции для отправки почты.
 from django.core.mail import send_mail
 
+# Импортируем модель поздравления.
+from .models import Birthday, Congratulation
+
+
 # Множество с именами участников Ливерпульской четвёрки.
 BEATLES = {'Джон Леннон', 'Пол Маккартни', 'Джордж Харрисон', 'Ринго Старр'}
 
@@ -18,7 +22,9 @@ class BirthdayForm(forms.ModelForm):
         # Указываем модель, на основе которой должна строиться форма.
         model = Birthday
         # Указываем, что надо отобразить все поля.
-        fields = '__all__'
+        # fields = '__all__'
+        # Указываем исключение поля автор в отображении формы
+        exclude = ('author',)
         widgets = {
             'birthday': forms.DateInput(attrs={'type': 'date'})
         }
@@ -51,3 +57,10 @@ class BirthdayForm(forms.ModelForm):
             raise ValidationError(
                 'Мы тоже любим Битлз, но введите, пожалуйста, настоящее имя!'
             )
+
+# Форма для поздравления
+class CongratulationForm(forms.ModelForm):
+
+    class Meta:
+        model = Congratulation
+        fields = ('text',)
